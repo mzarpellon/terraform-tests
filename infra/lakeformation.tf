@@ -9,7 +9,7 @@ resource "aws_lakeformation_resource" "refined_location" {
 }
 
 # Registro do Bucket CURATED
-resource "aws_lakeformation_resource" " curated_location" {
+resource "aws_lakeformation_resource" "curated_location" {
   arn = aws_s3_bucket.curated.arn
 }
 
