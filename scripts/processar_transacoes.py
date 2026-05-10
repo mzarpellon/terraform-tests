@@ -11,7 +11,7 @@ args = getResolvedOptions(sys.argv, ['JOB_NAME', 'S3_SOURCE', 'S3_TARGET'])
 sc = SparkContext()
 glueContext = GlueContext(sc)
 spark = glueContext.spark_session
-job = Job(GlueContext)
+job = Job(glueContext)
 job.init(args['JOB_NAME'], args)
 
 # Leitura do arquivo JSON (Raw)
