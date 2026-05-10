@@ -1,0 +1,16 @@
+[
+    {
+        "id_transacao": "TX123",
+        "valor": 1500.50,
+        "cliente": "Michael",
+        "score_risco": 0.12,
+        "data": "2023-10-27"
+    },
+    {
+        "id_transacao": "TX124",
+        "valor": 50.00,
+        "cliente": "Joao",
+        "score_risco": 0.85,
+        "data": "2023-10-27"
+    }
+]
