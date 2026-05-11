@@ -54,7 +54,6 @@ resource "aws_glue_job" "process_job" {
     "--S3_TARGET"                        = "s3://${aws_s3_bucket.refined.bucket}"
     "--job-language"                     = "python"
     "--enable-continuous-cloudwatch-log" = "true"
-    "--conf" = "spark.sql.parquet.output.committer.class=org.apache.spark.internal.io.cloud.BindingParquetOutputCommitter"
   }
 }
 
