@@ -1,22 +1,35 @@
-# Registro do Bucket RAW
-resource "aws_lakeformation_resource" "raw_location" {
-  arn = aws_s3_bucket.raw.arn
-}
-
-# Registro do Bucket REFINED
-resource "aws_lakeformation_resource" "refined_location" {
+# 1. REGISTRO DO BUCKET REFINED (Onde o Job falha ao escrever)
+resource "aws_lakeformation_resource" "refined_registration" {
   arn = aws_s3_bucket.refined.arn
 }
 
-# Registro do Bucket CURATED
-resource "aws_lakeformation_resource" "curated_location" {
-  arn = aws_s3_bucket.curated.arn
+# 2. PERMISSÕES DE LOCALIZAÇÃO PARA O REFINED
+resource "aws_lakeformation_permissions" "glue_refined_location" {
+  principal = aws_iam_role.glue_role.arn
+  permissions = ["DATA_LOCATION_ACCESS"]
+
+  data_location {
+    arn = aws_s3_bucket.refined.arn
+  }
+
+  depends_on = [aws_lakeformation_resource.refined_registration]
 }
 
-# Conceder permissões ao Glue Role
-resource "aws_lakeformation_permissions" "glue_permissions" {
+# 3. PERMISSÕES DE LOCALIZAÇÃO PARA O RAW
+# Como o raw já está no console, apenas damos a permissão para a role
+resource "aws_lakeformation_permissions" "glue_raw_location" {
   principal = aws_iam_role.glue_role.arn
-  permissions = ["ALL"]
+  permissions = ["DATA_LOCATION_ACCESS"]
+
+  data_location {
+    arn = aws_s3_bucket.raw.arn
+  }
+}
+
+# 4. ACESSO AO BANCO DE DADOS
+resource "aws_lakeformation_permissions" "glue_database_access" {
+  principal = aws_iam_role.glue_role.arn
+  permissions = ["CREATE_TABLE", "DESCRIBE", "ALTER"]
 
   database {
     name = aws_glue_catalog_database.risco_db.name
