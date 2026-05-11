@@ -31,6 +31,6 @@ df = spark.read.option("multiline", "true").json(source_path)
 df.show()
 
 # # Escrita em parquet (refined)
-df_refined.write.mode('overwrite').parquet(target_path)
+df.write.mode('overwrite').parquet(target_path)
 
 # job.commit()
